@@ -30,30 +30,33 @@ export default function Home(): JSX.Element {
         </p>
       </div>
       <HorizontalRuler />
-      <form className={`flex flex-col justify-center gap-4 font-mono`}>
-        <p className={`text-lg text-white`}>Embrace the inevitable.</p>
-        <Input
-          labelProps={{
-            htmlFor: "email",
-            children: <>Email: </>,
-          }}
-          autoFocus
-          autoCapitalize={"off"}
-          value={email}
-          type={"email"}
-          id={"email"}
-          placeholder={`Enter your email`}
-          onChange={handleEmailChange}
-        />
-        <div className={`w-full px-6`}>
-          <Button className={`w-full`} type={"submit"}>
-            Join us
-          </Button>
-        </div>
-      </form>
-      <div
-        className={`w-full flex justify-center items-center text-sm text-stone-500`}>
-        We&apos;ll notify you when it&apos;s your time.
+      <div className={`flex flex-col w-full justify-center`}>
+        <form
+          className={`w-full max-w-md flex flex-col justify-center gap-4 font-mono`}>
+          <p className={`text-lg text-white`}>Embrace the inevitable.</p>
+          <Input
+            labelProps={{
+              htmlFor: "email",
+              children: <>Email: </>,
+            }}
+            autoFocus
+            autoCapitalize={"off"}
+            value={email}
+            type={"email"}
+            id={"email"}
+            placeholder={`Enter your email`}
+            onChange={handleEmailChange}
+          />
+          <div className={`w-full px-6`}>
+            <Button className={`w-full`} type={"submit"}>
+              Join us
+            </Button>
+          </div>
+          <div
+            className={`w-full flex justify-center items-center text-sm text-stone-500`}>
+            We&apos;ll notify you when it&apos;s your time.
+          </div>
+        </form>
       </div>
     </main>
   );
