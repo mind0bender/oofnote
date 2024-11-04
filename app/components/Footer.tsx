@@ -3,7 +3,7 @@ import Link from "next/link";
 function Footer(): JSX.Element {
   return (
     <footer
-      className={`flex flex-col justify-center items-center gap-2 py-4 px-8 text-stone-500 border-t bg-black border-t-stone-700`}>
+      className={`flex flex-col justify-center items-center gap-2 py-4 px-8 text-stone-300 border-t bg-black border-t-stone-700`}>
       <table className={`w-full border-stone-700`}>
         <thead className={`w-full border-inherit`}>
           <tr className={`border-inherit`}>
@@ -24,7 +24,7 @@ function Footer(): JSX.Element {
             <td
               className={`flex justify-start items-start border-t border-inherit py-2`}>
               <p className={`text-sm`}>
-                Made with ❤️ by{" "}
+                Made with ❤️ by&nbsp;
                 <Link
                   className={`text-blue-400 hover:underline`}
                   href={`https://mind0bender.vercel.app`}

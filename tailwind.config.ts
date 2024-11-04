@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 
 const config: Config = {
   content: [
@@ -18,6 +19,17 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({
+      addVariant,
+    }: {
+      addVariant: (name: string, css: string) => void;
+    }): void {
+      addVariant(
+        "disabled-within",
+        `&:has(input:is(:disabled),button:is(:disabled))`
+      );
+    }),
+  ],
 };
 export default config;

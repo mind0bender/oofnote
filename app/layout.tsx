@@ -1,9 +1,11 @@
+import "./globals.css";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import "./globals.css";
-import { NextFontWithVariable } from "next/dist/compiled/@next/font";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import "react-toastify/dist/ReactToastify.css";
+import { NextFontWithVariable } from "next/dist/compiled/@next/font";
+import { ToastContainer } from "react-toastify";
 
 const geistSans: NextFontWithVariable = localFont({
   src: "./fonts/GeistVF.woff",
@@ -36,6 +38,7 @@ export default function RootLayout({
           {children}
           <Footer />
         </div>
+        <ToastContainer theme={"dark"} position={"bottom-right"} />
       </body>
     </html>
   );

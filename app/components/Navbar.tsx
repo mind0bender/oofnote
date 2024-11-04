@@ -1,14 +1,29 @@
+"use client";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 function Navbar(): JSX.Element {
+  const [scrollY, setScrollY] = useState<number>(0);
+
+  useEffect((): (() => void) => {
+    const handleScroll: () => void = (): void => {
+      setScrollY(window.scrollY);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return (): void => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
     <nav
-      className={`sticky top-0 bg-black bg-opacity-85 backdrop-blur-sm flex justify-between items-center py-4 px-8 border-b border-b-stone-700`}>
+      className={`sticky top-0 bg-stone-900 bg-opacity-85 backdrop-blur-sm flex justify-between items-center ${
+        scrollY ? "py-3" : "py-5"
+      } px-6 sm:px-8 border-b border-b-stone-700 duration-200`}>
       <Link href={`/`} className={`font-semibold text-lg`}>
         <span className={`font-black`}>Oof</span>
         <span className={`font-thin`}>Note</span>
       </Link>
-      <ul className={`flex justify-center items-center gap-6`}>
+      <ul className={`flex justify-center items-center sm:gap-4 gap-2`}>
         <li>
           <Link className={`hover:underline underline-offset-2`} href="/">
             Home

@@ -1,24 +1,32 @@
 "use client";
-
-import { useCallback, useState } from "react";
 import HorizontalRuler from "./components/HorizontalRuler";
 import Input from "./components/Input";
 import Button from "./components/Button";
+import { ResponseType, successResponse } from "./helper/response";
+import { useActionState, useEffect } from "react";
+import { joinAction } from "./join.action";
+import { Id, toast } from "react-toastify";
+import Form from "./components/Form";
 
 export default function Home(): JSX.Element {
-  const [email, setEmail] = useState<string>("");
+  const [state, joinFormAction, isJoinActionPending] = useActionState<
+    ResponseType,
+    FormData
+  >(joinAction, successResponse(""));
 
-  const handleEmailChange: (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => void = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>): void => {
-      setEmail(event.target.value);
-    },
-    []
-  );
+  useEffect((): (() => void) => {
+    if (state.success) {
+      if (state.message) toast.success(state.message);
+    } else {
+      state.errors.forEach((error: string): Id => toast.error(error));
+    }
+
+    return (): void => {};
+  }, [state]);
 
   return (
-    <main className={`flex flex-col grow gap-10 justify-center px-6 sm:px-10`}>
+    <main
+      className={`flex flex-col grow gap-10 justify-center py-10 px-6 sm:px-10`}>
       <div className={`flex flex-col justify-center gap-4`}>
         <h1 className={`text-4xl font-bold text-white`}>Step into OofNote</h1>
         <p className={`text-lg text-white font-mono`}>
@@ -31,32 +39,33 @@ export default function Home(): JSX.Element {
       </div>
       <HorizontalRuler />
       <div className={`flex flex-col w-full justify-center`}>
-        <form
-          className={`w-full max-w-md flex flex-col justify-center gap-4 font-mono`}>
-          <p className={`text-lg text-white`}>Embrace the inevitable.</p>
+        <Form action={joinFormAction} formTitle={<>Embrace the inevitable.</>}>
           <Input
             labelProps={{
               htmlFor: "email",
               children: <>Email: </>,
             }}
+            disabled={isJoinActionPending}
             autoFocus
             autoCapitalize={"off"}
-            value={email}
             type={"email"}
             id={"email"}
+            name={"email"}
             placeholder={`Enter your email`}
-            onChange={handleEmailChange}
           />
           <div className={`w-full px-6`}>
-            <Button className={`w-full`} type={"submit"}>
+            <Button
+              disabled={isJoinActionPending}
+              className={`w-full`}
+              type={"submit"}>
               Join us
             </Button>
           </div>
           <div
-            className={`w-full flex justify-center items-center text-sm text-stone-500`}>
+            className={`w-full flex justify-center items-center text-sm text-stone-300`}>
             We&apos;ll notify you when it&apos;s your time.
           </div>
-        </form>
+        </Form>
       </div>
     </main>
   );
