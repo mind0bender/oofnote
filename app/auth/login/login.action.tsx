@@ -12,13 +12,16 @@ import {
   errorResponse,
   ResponseType,
   successResponse,
-} from "../helper/response";
-import connectToDB from "../database";
-import User, { UserInterface } from "../database/models/user/user";
+} from "../../helper/response";
+import connectToDB from "../../database";
+import User, { UserInterface } from "../../database/models/user/user";
 import {
   passwordSchema,
   usernameSchema,
-} from "../database/models/user/user.validation";
+} from "../../database/models/user/user.validation";
+import { createSession, getSessionData } from "@/app/lib/auth/session.auth.lib";
+import { ObjectId } from "mongoose";
+import { SessionPayload } from "@/app/lib/auth/index.auth.lib";
 
 const loginDataSchema: ZodObject<
   {
@@ -47,6 +50,17 @@ export const loginAction: (
   state: ResponseType<never>,
   data: FormData
 ): Promise<ResponseType> {
+  const sessionData: SessionPayload | undefined = await getSessionData();
+  if (sessionData) {
+    const { _id } = sessionData;
+    const user: UserInterface | null = await User.findById(_id);
+    if (!user) {
+      return errorResponse("Unauthorized", ["Invalid session"], 401);
+    }
+    const username: string = user.username;
+    return successResponse(`Already logged in as ${username}`);
+  }
+
   await connectToDB();
   const username: FormDataEntryValue | null = data.get("username");
   const password: FormDataEntryValue | null = data.get("password");
@@ -98,6 +112,8 @@ export const loginAction: (
     } else {
       user.updateOne({ lastAwakening: new Date() });
       await user.save();
+      const _id: ObjectId = user._id;
+      await createSession(String(_id));
       return successResponse("Login successful");
     }
   }

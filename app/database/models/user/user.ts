@@ -1,7 +1,8 @@
 import { pbkdf2Sync, randomBytes } from "crypto";
-import { Document, model, models, Schema } from "mongoose";
+import { Document, model, models, ObjectId, Schema } from "mongoose";
 
 export interface UserInterface extends Document {
+  _id: ObjectId;
   username: string;
   email: string;
   password: string;

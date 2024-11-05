@@ -29,6 +29,7 @@ const config: Config = {
         "disabled-within",
         `&:has(input:is(:disabled),button:is(:disabled))`
       );
+      addVariant("alive", '&[data-alive="true"]');
     }),
   ],
 };

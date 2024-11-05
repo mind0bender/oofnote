@@ -10,14 +10,14 @@ import {
   ZodTypeAny,
 } from "zod";
 import { ObjectId } from "mongoose";
-import { errorResponse, ResponseType } from "../helper/response";
-import connectToDB from "../database";
-import User, { UserInterface } from "../database/models/user/user";
+import { errorResponse, ResponseType } from "../../helper/response";
+import connectToDB from "../../database";
+import User, { UserInterface } from "../../database/models/user/user";
 import {
   emailSchema,
   passwordSchema,
   usernameSchema,
-} from "../database/models/user/user.validation";
+} from "../../database/models/user/user.validation";
 
 const registerDataSchema: ZodObject<
   {
@@ -114,7 +114,7 @@ export const registerAction: (
   await user.save();
 
   return redirect(
-    `/login/?username=${encodeURIComponent(
+    `/auth/login/?username=${encodeURIComponent(
       registerDataValidationResult.data.username
     )}`
   );

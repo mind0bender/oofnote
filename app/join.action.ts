@@ -33,7 +33,7 @@ export const joinAction: (
     const { username } = await User.findById(_id, {
       username: true,
     });
-    return redirect(`/login/?username=${encodeURI(username)}`);
+    return redirect(`/auth/login/?username=${encodeURI(username)}`);
   }
-  return redirect(`/register/?email=${encodeURI(email)}`);
+  return redirect(`/auth/register/?email=${encodeURI(email)}`);
 };
