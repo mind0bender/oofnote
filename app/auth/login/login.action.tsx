@@ -50,6 +50,7 @@ export const loginAction: (
   state: ResponseType<never>,
   data: FormData
 ): Promise<ResponseType> {
+  await connectToDB();
   const sessionData: SessionPayload | undefined = await getSessionData();
   if (sessionData) {
     const { _id } = sessionData;
@@ -61,7 +62,6 @@ export const loginAction: (
     return successResponse(`Already logged in as ${username}`);
   }
 
-  await connectToDB();
   const username: FormDataEntryValue | null = data.get("username");
   const password: FormDataEntryValue | null = data.get("password");
 

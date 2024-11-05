@@ -1,17 +1,10 @@
 "use server";
 
-const DB_USER: string | undefined = process.env.DB_USER;
-const DB_PSWD: string | undefined = process.env.DB_PSWD;
-const DB_URI = `mongodb+srv://${DB_USER}:${DB_PSWD}@cluster0.jc8msxu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
-
 import { Connection } from "mongoose";
 import { connect } from "mongoose";
+import { MONGODB_URI } from "../helper/const";
 
-if (!DB_URI) {
-  throw new Error(
-    "Please define the MONGODB_URI environment variable inside .env.local"
-  );
-}
+// const MONGODB_URI = `mongodb+srv://${DB_USER}:${DB_PSWD}@cluster0.jc8msxu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 interface GlobalWithMongo extends Global {
   mongo: {
@@ -41,7 +34,7 @@ async function connectToDB(): Promise<Connection> {
       bufferCommands: false,
     };
 
-    cached.promise = connect(DB_URI, opts).then((mongoose) => {
+    cached.promise = connect(MONGODB_URI, opts).then((mongoose) => {
       return mongoose.connection;
     });
   }
