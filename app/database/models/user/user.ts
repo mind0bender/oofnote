@@ -23,14 +23,14 @@ const UserSchema: Schema<UserInterface> = new Schema(
       maxlength: 20,
     },
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true, minlength: 8, maxlength: 100 },
+    password: { type: String, required: true },
+    salt: { type: String, required: true },
     displayPicture: {
       type: String,
       default: function (): string {
         return `https://api.dicebear.com/9.x/pixel-art/svg?seed=${this.username}`;
       },
     },
-    salt: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
     lastAwakening: { type: Date, default: Date.now },
   },

@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import "react-toastify/dist/ReactToastify.css";
 import { NextFontWithVariable } from "next/dist/compiled/@next/font";
 import { ToastContainer } from "react-toastify";
+import { Suspense } from "react";
 
 const geistSans: NextFontWithVariable = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,7 +36,14 @@ export default function RootLayout({
         <div
           className={`flex flex-col grow w-full bg-black text-stone-100 border-x border-x-stone-700 border-dashed`}>
           <Navbar />
-          {children}
+          <Suspense
+            fallback={
+              <div className="flex-grow flex items-center justify-center">
+                <div className="text-2xl">Loading...</div>
+              </div>
+            }>
+            {children}
+          </Suspense>
           <Footer />
         </div>
         <ToastContainer theme={"dark"} position={"bottom-right"} />
