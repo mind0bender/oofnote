@@ -11,5 +11,4 @@ ok(DB_USER, `DB_USER is not set`);
 ok(DB_PSWD, `DB_PSWD is not set`);
 ok(SESSION_SECRET, `SESSION_SECRET is not set`);
 
-export const ENCODED_SESSION_SECRET: Uint8Array<ArrayBufferLike> =
-  new TextEncoder().encode(SESSION_SECRET);
+export const ENCODED_SESSION_SECRET = new TextEncoder().encode(SESSION_SECRET);
