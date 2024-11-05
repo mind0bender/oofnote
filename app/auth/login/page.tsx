@@ -7,8 +7,7 @@ import { SessionPayload } from "@/app/lib/auth/index.auth.lib";
 import User, { UserInterface } from "@/app/database/models/user/user";
 import { Suspense } from "react";
 import connectToDB from "@/app/database";
-
-// export const revalidate = 0;
+import Link from "next/link";
 
 async function LoginPage(): Promise<JSX.Element> {
   await connectToDB();
@@ -35,9 +34,9 @@ async function LoginPage(): Promise<JSX.Element> {
           No need to knock again
         </div>
         <div>
-          <a href={`/auth/logout`}>
+          <Link href={`/auth/logout`}>
             <Button>Logout</Button>
-          </a>
+          </Link>
         </div>
       </div>
       <Suspense fallback={<div>Loading...</div>}>

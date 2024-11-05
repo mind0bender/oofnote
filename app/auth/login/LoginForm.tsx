@@ -7,6 +7,7 @@ import { successResponse } from "@/app/helper/response";
 import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
 import { Id, toast } from "react-toastify";
 import Button from "@/app/components/Button";
+import Link from "next/link";
 
 export default function LoginForm({ ...rest }: FormProps): JSX.Element {
   const searchParams: ReadonlyURLSearchParams = useSearchParams();
@@ -58,6 +59,15 @@ export default function LoginForm({ ...rest }: FormProps): JSX.Element {
           type={"submit"}>
           Login
         </Button>
+      </div>
+      <div className={`flex justify-end text-sm`}>
+        Don&apos;t have an account?&nbsp;
+        <Link
+          className={`text-blue-400 hover:underline`}
+          href={`/auth/register`}
+          rel={`noopener noreferrer`}>
+          Register
+        </Link>
       </div>
     </Form>
   );

@@ -109,8 +109,6 @@ export const registerAction: (
   });
   user.setPassword(password.toString());
 
-  console.log({ user });
-
   await user.save();
 
   return redirect(

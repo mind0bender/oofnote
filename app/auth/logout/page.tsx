@@ -2,6 +2,7 @@ import Button from "@/app/components/Button";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { cookies } from "next/headers";
 import LogoutForm from "./LogoutForm";
+import Link from "next/link";
 async function LogoutPage(): Promise<JSX.Element> {
   const cookieStore: ReadonlyRequestCookies = await cookies();
   const sessionToken: string | undefined = cookieStore.get("session")?.value;
@@ -16,9 +17,9 @@ async function LogoutPage(): Promise<JSX.Element> {
           <br />
           Back to the shadows you go!
         </div>
-        <a href={`/auth/login`}>
+        <Link href={`/auth/login`}>
           <Button>Login Again</Button>
-        </a>
+        </Link>
       </div>
       <LogoutForm
         data-alive={!!sessionToken}

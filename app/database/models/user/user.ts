@@ -8,10 +8,10 @@ export interface UserInterface extends Document {
   password: string;
   salt: string;
   displayPicture: string;
-  createdAt: Date;
   setPassword(password: string): void;
-  lastAwakening: Date;
   verifyPassword(password: string): boolean;
+  bornAt: Date;
+  lastAwaken: Date;
 }
 
 const UserSchema: Schema<UserInterface> = new Schema(
@@ -32,8 +32,6 @@ const UserSchema: Schema<UserInterface> = new Schema(
         return `https://api.dicebear.com/9.x/pixel-art/svg?seed=${this.username}`;
       },
     },
-    createdAt: { type: Date, default: Date.now },
-    lastAwakening: { type: Date, default: Date.now },
   },
   {
     methods: {
@@ -54,8 +52,22 @@ const UserSchema: Schema<UserInterface> = new Schema(
         );
       },
     },
+    timestamps: {
+      createdAt: "bornAt", // Use `created_at` to store the created date
+      updatedAt: "lastAwaken", // and `updated_at` to store the last updated date
+    },
   }
 );
+
+UserSchema.index({ username: 1, email: 1 });
+
+// IDK if this is necessary, but just to be sure
+// I'm using a pre-save hook to update the lastAwaken field
+UserSchema.pre("save", function (next) {
+  this.lastAwaken = new Date();
+  console.log(this.lastAwaken);
+  next();
+});
 
 const User = models.User || model<UserInterface>("User", UserSchema);
 

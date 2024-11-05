@@ -1,8 +1,6 @@
 import { Suspense } from "react";
 import RegisterForm from "./RegisterForm";
 
-// export const revalidate = 0;
-
 function RegisterPage(): JSX.Element {
   return (
     <main

@@ -8,6 +8,7 @@ import { registerAction } from "./register.action";
 import { successResponse } from "@/app/helper/response";
 import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
 import { Id, toast } from "react-toastify";
+import Link from "next/link";
 
 export default function RegisterForm({ ...rest }: FormProps): JSX.Element {
   const searchParams: ReadonlyURLSearchParams = useSearchParams();
@@ -69,6 +70,15 @@ export default function RegisterForm({ ...rest }: FormProps): JSX.Element {
           type={"submit"}>
           Register
         </Button>
+      </div>
+      <div className={`flex justify-end text-sm`}>
+        Already have an account?&nbsp;
+        <Link
+          className={`text-blue-400 hover:underline`}
+          href={`/auth/login`}
+          rel={`noopener noreferrer`}>
+          Login
+        </Link>
       </div>
     </Form>
   );

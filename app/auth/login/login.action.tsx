@@ -110,7 +110,6 @@ export const loginAction: (
         401
       );
     } else {
-      user.updateOne({ lastAwakening: new Date() });
       await user.save();
       const _id: ObjectId = user._id;
       await createSession(String(_id));

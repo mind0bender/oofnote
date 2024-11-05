@@ -25,6 +25,7 @@ export const logoutAction: () => Promise<ResponseType> =
         return errorResponse("Unauthorized", ["Invalid session"], 401);
       }
       const username: string = user.username;
+      await user.save(); // awaken
       return successResponse(`Logged out of ${username}`);
     } else {
       return successResponse(`Already logged out`);
