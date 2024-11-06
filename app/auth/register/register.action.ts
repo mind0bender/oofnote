@@ -1,6 +1,5 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import {
   SafeParseReturnType,
   z,
@@ -9,15 +8,16 @@ import {
   ZodString,
   ZodTypeAny,
 } from "zod";
-import { ObjectId } from "mongoose";
-import { errorResponse, ResponseType } from "../../helper/response";
-import connectToDB from "../../database";
-import User, { UserInterface } from "../../database/models/user/user";
 import {
   emailSchema,
   passwordSchema,
   usernameSchema,
 } from "../../database/models/user/user.validation";
+import { ObjectId } from "mongoose";
+import connectToDB from "../../database";
+import { redirect } from "next/navigation";
+import { errorResponse, ResponseType } from "../../helper/response.helper";
+import User, { UserInterface } from "../../database/models/user/user";
 
 const registerDataSchema: ZodObject<
   {
@@ -109,9 +109,9 @@ export const registerAction: (
   });
   user.setPassword(password.toString());
 
-  await user.save();
+  await user.save(); // save and awaken
 
-  return redirect(
+  redirect(
     `/auth/login/?username=${encodeURIComponent(
       registerDataValidationResult.data.username
     )}`

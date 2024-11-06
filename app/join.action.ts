@@ -1,19 +1,17 @@
 "use server";
-
-import connectToDB from "@/app/database";
-import { errorResponse, ResponseType } from "@/app/helper/response";
-import { redirect } from "next/navigation";
 import { z } from "zod";
-import User from "./database/models/user/user";
 import { ObjectId } from "mongoose";
+import connectToDB from "@/app/database";
+import { redirect } from "next/navigation";
+import User from "./database/models/user/user";
+import { errorResponse, ResponseType } from "@/app/helper/response.helper";
 
-export const joinAction: (
-  state: ResponseType<never>,
-  data: FormData
-) => Promise<ResponseType> = async function (
+export async function joinAction(
   state: ResponseType<never>,
   data: FormData
 ): Promise<ResponseType> {
+  console.log(data);
+
   await connectToDB();
   const email: FormDataEntryValue | null = data.get("email");
   if (!email) {
@@ -30,10 +28,11 @@ export const joinAction: (
   } | null = await User.exists({ email });
   if (shouldLogin) {
     const { _id } = shouldLogin;
-    const { username } = await User.findById(_id, {
-      username: true,
-    });
-    return redirect(`/auth/login/?username=${encodeURI(username)}`);
+    const user = await User.findById(_id);
+    if (!user) {
+      return errorResponse("Bad Request", ["User not found"]);
+    }
+    redirect(`/auth/login/?username=${encodeURI(user?.username)}`);
   }
-  return redirect(`/auth/register/?email=${encodeURI(email)}`);
-};
+  redirect(`/auth/register/?email=${encodeURI(email)}`);
+}

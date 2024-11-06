@@ -25,18 +25,22 @@ function Navbar(): JSX.Element {
       </Link>
       <ul className={`flex justify-center items-center sm:gap-4 gap-2`}>
         <li>
-          <Link className={`hover:underline underline-offset-2`} href="/">
+          <Link
+            className={`hover:underline underline-offset-2 outline-none focus:underline`}
+            href="/">
             Home
           </Link>
         </li>
         <li>
-          <Link className={`hover:underline underline-offset-2`} href="/about">
+          <Link
+            className={`hover:underline underline-offset-2 outline-none focus:underline`}
+            href="/about">
             About
           </Link>
         </li>
         <li>
           <Link
-            className={`hover:underline underline-offset-2`}
+            className={`hover:underline underline-offset-2 outline-none focus:underline`}
             href="/contact">
             Contact
           </Link>

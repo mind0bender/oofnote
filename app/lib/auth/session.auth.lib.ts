@@ -1,3 +1,5 @@
+"use server";
+
 import { cookies } from "next/headers";
 import { decrypt, encrypt, SessionPayload } from "./index.auth.lib";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";

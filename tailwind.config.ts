@@ -29,7 +29,10 @@ const config: Config = {
         "disabled-within",
         `&:has(input:is(:disabled),button:is(:disabled))`
       );
+      // user loggedin variant
       addVariant("alive", '&[data-alive="true"]');
+      // secondary form element variant
+      addVariant("secondary", '&[data-secondary="true"]');
     }),
   ],
 };

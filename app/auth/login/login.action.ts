@@ -9,19 +9,20 @@ import {
   ZodTypeAny,
 } from "zod";
 import {
-  errorResponse,
-  ResponseType,
-  successResponse,
-} from "../../helper/response";
-import connectToDB from "../../database";
-import User, { UserInterface } from "../../database/models/user/user";
-import {
   passwordSchema,
   usernameSchema,
 } from "../../database/models/user/user.validation";
-import { createSession, getSessionData } from "@/app/lib/auth/session.auth.lib";
 import { ObjectId } from "mongoose";
+import connectToDB from "../../database";
+import { redirect } from "next/navigation";
 import { SessionPayload } from "@/app/lib/auth/index.auth.lib";
+import User, { UserInterface } from "../../database/models/user/user";
+import { createSession, getSessionData } from "@/app/lib/auth/session.auth.lib";
+import {
+  errorResponse,
+  ResponseType,
+  successResponse,
+} from "@/app/helper/response.helper";
 
 const loginDataSchema: ZodObject<
   {
@@ -97,23 +98,15 @@ export const loginAction: (
       username: loginDataValidationResult.data.username,
     });
     if (!user) {
-      return errorResponse(
-        "Unauthorized",
-        ["Incorrect username or password"],
-        401
-      );
+      return errorResponse("Unauthorized", ["Incorrect username"], 401);
     }
     if (!user.verifyPassword(loginDataValidationResult.data.password)) {
-      return errorResponse(
-        "Unauthorized",
-        ["Invalid username or password"],
-        401
-      );
+      return errorResponse("Unauthorized", ["Incorrect password"], 401);
     } else {
-      await user.save();
+      await user.save(); // awaken
       const _id: ObjectId = user._id;
       await createSession(String(_id));
-      return successResponse("Login successful");
+      redirect("/dashboard");
     }
   }
 };

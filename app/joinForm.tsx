@@ -1,11 +1,11 @@
 "use client";
+import Form from "./components/Form";
 import Input from "./components/Input";
 import Button from "./components/Button";
-import { ResponseType, successResponse } from "./helper/response";
-import { useActionState, useEffect } from "react";
-import { joinAction } from "./join.action";
 import { Id, toast } from "react-toastify";
-import Form from "./components/Form";
+import { joinAction } from "./join.action";
+import { useActionState, useEffect } from "react";
+import { ResponseType, successResponse } from "./helper/response.helper";
 
 export default function JoinForm(): JSX.Element {
   const [state, joinFormAction, isJoinActionPending] = useActionState<
@@ -24,7 +24,11 @@ export default function JoinForm(): JSX.Element {
   }, [state]);
 
   return (
-    <Form action={joinFormAction} formTitle={<>Embrace the inevitable.</>}>
+    <Form
+      action={(data: FormData) => {
+        joinFormAction(data);
+      }}
+      formTitle={<>Embrace the inevitable.</>}>
       <Input
         labelProps={{
           htmlFor: "email",

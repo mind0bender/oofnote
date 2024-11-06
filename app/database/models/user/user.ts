@@ -1,3 +1,5 @@
+"use server";
+
 import { pbkdf2Sync, randomBytes } from "crypto";
 import { Document, model, models, ObjectId, Schema } from "mongoose";
 

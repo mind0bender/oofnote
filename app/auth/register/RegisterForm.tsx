@@ -1,14 +1,14 @@
 "use client";
 
-import Button from "@/app/components/Button";
-import Form, { FormProps } from "@/app/components/Form";
+import Link from "next/link";
 import Input from "@/app/components/Input";
+import { Id, toast } from "react-toastify";
+import Button from "@/app/components/Button";
 import { useActionState, useEffect } from "react";
 import { registerAction } from "./register.action";
-import { successResponse } from "@/app/helper/response";
+import Form, { FormProps } from "@/app/components/Form";
+import { successResponse } from "@/app/helper/response.helper";
 import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
-import { Id, toast } from "react-toastify";
-import Link from "next/link";
 
 export default function RegisterForm({ ...rest }: FormProps): JSX.Element {
   const searchParams: ReadonlyURLSearchParams = useSearchParams();

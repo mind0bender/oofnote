@@ -1,10 +1,11 @@
 "use client";
-import Button from "@/app/components/Button";
-import Form, { FormProps } from "@/app/components/Form";
-import { useActionState, useEffect } from "react";
-import { successResponse } from "@/app/helper/response";
 import { Id, toast } from "react-toastify";
-import { logoutAction } from "./logout.action";
+import Button from "@/app/components/Button";
+import { useActionState, useEffect } from "react";
+import Form, { FormProps } from "@/app/components/Form";
+import { successResponse } from "@/app/helper/response.helper";
+import logoutAction from "./logout.action";
+import Link from "next/link";
 
 export default function LogoutForm({ ...rest }: FormProps): JSX.Element {
   const [logoutState, logoutFormAction, isLogoutFormActionPending] =
@@ -19,12 +20,21 @@ export default function LogoutForm({ ...rest }: FormProps): JSX.Element {
 
     return (): void => {};
   }, [logoutState]);
+
   return (
     <Form
       {...rest}
       action={logoutFormAction}
       formTitle={`Are you sure you want to logout?`}>
-      <div className={`w-full px-6`}>
+      <div className={`flex gap-2 w-full px-6`}>
+        <div>
+          <Link
+            tabIndex={0}
+            href={"/dashboard"}
+            className={`w-full outline-none`}>
+            <Button data-secondary>Dashboard</Button>
+          </Link>
+        </div>
         <Button
           disabled={isLogoutFormActionPending}
           className={`w-full`}

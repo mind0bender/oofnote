@@ -1,5 +1,7 @@
+"use server";
+
 import { JWTPayload, SignJWT, jwtVerify } from "jose";
-import { ENCODED_SESSION_SECRET } from "../../helper/const";
+import { ENCODED_SESSION_SECRET } from "../../helper/const.helper";
 
 export interface SessionPayload extends JWTPayload {
   _id: string;

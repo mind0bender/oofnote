@@ -1,33 +1,31 @@
 "use server";
-
 import {
   errorResponse,
   ResponseType,
   successResponse,
-} from "../../helper/response";
-import User, { UserInterface } from "../../database/models/user/user";
-import { getSessionData } from "@/app/lib/auth/session.auth.lib";
-import { SessionPayload } from "@/app/lib/auth/index.auth.lib";
-import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
+} from "../../helper/response.helper";
 import { cookies } from "next/headers";
 import connectToDB from "@/app/database";
+import { SessionPayload } from "@/app/lib/auth/index.auth.lib";
+import { getSessionData } from "@/app/lib/auth/session.auth.lib";
+import User, { UserInterface } from "../../database/models/user/user";
+import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
+import { redirect } from "next/navigation";
 
-export const logoutAction: () => Promise<ResponseType> =
-  async function (): Promise<ResponseType> {
-    const sessionData: SessionPayload | undefined = await getSessionData();
-    if (sessionData) {
-      const { _id } = sessionData;
-      await connectToDB();
-      const user: UserInterface | null = await User.findById(_id);
-      const cookieStore: ReadonlyRequestCookies = await cookies();
-      cookieStore.delete("session");
-      if (!user) {
-        return errorResponse("Unauthorized", ["Invalid session"], 401);
-      }
-      const username: string = user.username;
-      await user.save(); // awaken
-      return successResponse(`Logged out of ${username}`);
-    } else {
-      return successResponse(`Already logged out`);
+export default async function logoutAction(): Promise<ResponseType> {
+  const sessionData: SessionPayload | undefined = await getSessionData();
+  if (sessionData) {
+    const { _id } = sessionData;
+    await connectToDB();
+    const user: UserInterface | null = await User.findById(_id);
+    const cookieStore: ReadonlyRequestCookies = await cookies();
+    cookieStore.delete("session");
+    if (!user) {
+      return errorResponse("Unauthorized", ["Invalid session"], 401);
     }
-  };
+    await user.save(); // awaken
+    redirect("/auth/login");
+  } else {
+    return successResponse(`Already logged out`);
+  }
+}
