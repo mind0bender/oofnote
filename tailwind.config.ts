@@ -33,6 +33,7 @@ const config: Config = {
       addVariant("alive", '&[data-alive="true"]');
       // secondary form element variant
       addVariant("secondary", '&[data-secondary="true"]');
+      addVariant("tertiary", '&[data-tertiary="true"]');
     }),
   ],
 };

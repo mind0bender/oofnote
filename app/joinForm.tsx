@@ -2,26 +2,15 @@
 import Form from "./components/Form";
 import Input from "./components/Input";
 import Button from "./components/Button";
-import { Id, toast } from "react-toastify";
 import { joinAction } from "./join.action";
-import { useActionState, useEffect } from "react";
-import { ResponseType, successResponse } from "./helper/response.helper";
+import { successResponse } from "./helper/response.helper";
+import useCustomActionState from "./helper/hooks/customFormActionHook";
 
 export default function JoinForm(): JSX.Element {
-  const [state, joinFormAction, isJoinActionPending] = useActionState<
-    ResponseType,
-    FormData
-  >(joinAction, successResponse(""));
-
-  useEffect((): (() => void) => {
-    if (state.success) {
-      if (state.message) toast.success(state.message);
-    } else {
-      state.errors.forEach((error: string): Id => toast.error(error));
-    }
-
-    return (): void => {};
-  }, [state]);
+  const [, joinFormAction, isJoinActionPending] = useCustomActionState(
+    joinAction,
+    successResponse("")
+  );
 
   return (
     <Form

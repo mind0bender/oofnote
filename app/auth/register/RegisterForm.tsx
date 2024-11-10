@@ -2,30 +2,19 @@
 
 import Link from "next/link";
 import Input from "@/app/components/Input";
-import { Id, toast } from "react-toastify";
 import Button from "@/app/components/Button";
-import { useActionState, useEffect } from "react";
 import { registerAction } from "./register.action";
 import Form, { FormProps } from "@/app/components/Form";
 import { successResponse } from "@/app/helper/response.helper";
 import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
+import useCustomActionState from "@/app/helper/hooks/customFormActionHook";
 
 export default function RegisterForm({ ...rest }: FormProps): JSX.Element {
   const searchParams: ReadonlyURLSearchParams = useSearchParams();
   const email: string = decodeURIComponent(searchParams.get("email") || "");
 
-  const [registerState, registerFormAction, isRegisterFormActionPending] =
-    useActionState(registerAction, successResponse(""));
-
-  useEffect((): (() => void) => {
-    if (registerState.success) {
-      if (registerState.message) toast.success(registerState.message);
-    } else {
-      registerState.errors.forEach((error: string): Id => toast.error(error));
-    }
-
-    return (): void => {};
-  }, [registerState]);
+  const [, registerFormAction, isRegisterFormActionPending] =
+    useCustomActionState(registerAction, successResponse(""));
 
   return (
     <Form {...rest} action={registerFormAction} formTitle={`Register`}>

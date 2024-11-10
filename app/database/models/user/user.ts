@@ -1,7 +1,10 @@
-"use server";
-
 import { pbkdf2Sync, randomBytes } from "crypto";
 import { Document, model, models, ObjectId, Schema } from "mongoose";
+
+export enum UserRoles {
+  ADMIN = "admin",
+  USER = "user",
+}
 
 export interface UserInterface extends Document {
   _id: ObjectId;
@@ -14,6 +17,7 @@ export interface UserInterface extends Document {
   verifyPassword(password: string): boolean;
   bornAt: Date;
   lastAwaken: Date;
+  role: UserRoles;
 }
 
 const UserSchema: Schema<UserInterface> = new Schema(
@@ -28,6 +32,11 @@ const UserSchema: Schema<UserInterface> = new Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     salt: { type: String, required: true },
+    role: {
+      type: String,
+      enum: [UserRoles.ADMIN, UserRoles.USER],
+      default: UserRoles.USER,
+    },
     displayPicture: {
       type: String,
       default: function (): string {

@@ -1,25 +1,16 @@
 "use client";
-import { Id, toast } from "react-toastify";
 import Button from "@/app/components/Button";
-import { useActionState, useEffect } from "react";
 import Form, { FormProps } from "@/app/components/Form";
 import { successResponse } from "@/app/helper/response.helper";
 import logoutAction from "./logout.action";
 import Link from "next/link";
+import useCustomActionState from "@/app/helper/hooks/customFormActionHook";
 
 export default function LogoutForm({ ...rest }: FormProps): JSX.Element {
-  const [logoutState, logoutFormAction, isLogoutFormActionPending] =
-    useActionState(logoutAction, successResponse(""));
-
-  useEffect((): (() => void) => {
-    if (logoutState.success) {
-      if (logoutState.message) toast.success(logoutState.message);
-    } else {
-      logoutState.errors.forEach((error: string): Id => toast.error(error));
-    }
-
-    return (): void => {};
-  }, [logoutState]);
+  const [, logoutFormAction, isLogoutFormActionPending] = useCustomActionState(
+    logoutAction,
+    successResponse("")
+  );
 
   return (
     <Form
@@ -31,13 +22,13 @@ export default function LogoutForm({ ...rest }: FormProps): JSX.Element {
           <Link
             tabIndex={0}
             href={"/dashboard"}
-            className={`w-full outline-none`}>
+            className={`grow outline-none`}>
             <Button data-secondary>Dashboard</Button>
           </Link>
         </div>
         <Button
           disabled={isLogoutFormActionPending}
-          className={`w-full`}
+          className={`w-2/3`}
           type={"submit"}>
           Logout
         </Button>

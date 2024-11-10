@@ -56,11 +56,10 @@ export const loginAction: (
   if (sessionData) {
     const { _id } = sessionData;
     const user: UserInterface | null = await User.findById(_id);
-    if (!user) {
-      return errorResponse("Unauthorized", ["Invalid session"], 401);
+    if (user) {
+      const username: string = user.username;
+      return successResponse(`Already logged in as ${username}`);
     }
-    const username: string = user.username;
-    return successResponse(`Already logged in as ${username}`);
   }
 
   const username: FormDataEntryValue | null = data.get("username");

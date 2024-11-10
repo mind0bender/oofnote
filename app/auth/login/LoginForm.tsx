@@ -4,10 +4,11 @@ import Input from "@/app/components/Input";
 import { Id, toast } from "react-toastify";
 import Button from "@/app/components/Button";
 import { loginAction } from "./login.action";
-import { useActionState, useEffect } from "react";
+import { useEffect } from "react";
 import Form, { FormProps } from "@/app/components/Form";
 import { successResponse } from "@/app/helper/response.helper";
 import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
+import useCustomActionState from "@/app/helper/hooks/customFormActionHook";
 
 export default function LoginForm({ ...rest }: FormProps): JSX.Element {
   const searchParams: ReadonlyURLSearchParams = useSearchParams();
@@ -16,8 +17,7 @@ export default function LoginForm({ ...rest }: FormProps): JSX.Element {
   );
 
   const [loginState, loginFormAction, isLoginFormActionPending] =
-    useActionState(loginAction, successResponse(""));
-
+    useCustomActionState(loginAction, successResponse(""));
   useEffect((): (() => void) => {
     if (loginState.success) {
       if (loginState.message) toast.success(loginState.message);
