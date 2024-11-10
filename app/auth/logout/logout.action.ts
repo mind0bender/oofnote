@@ -1,7 +1,7 @@
 "use server";
 import {
   errorResponse,
-  ResponseType,
+  ResType,
   successResponse,
 } from "../../helper/response.helper";
 import { cookies } from "next/headers";
@@ -12,7 +12,7 @@ import User, { UserInterface } from "../../database/models/user/user";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { redirect } from "next/navigation";
 
-export default async function logoutAction(): Promise<ResponseType> {
+export default async function logoutAction(): Promise<ResType> {
   const sessionData: SessionPayload | undefined = await getSessionData();
   if (sessionData) {
     const { _id } = sessionData;

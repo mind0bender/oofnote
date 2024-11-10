@@ -4,12 +4,12 @@ import { ObjectId } from "mongoose";
 import connectToDB from "@/app/database";
 import { redirect } from "next/navigation";
 import User from "./database/models/user/user";
-import { errorResponse, ResponseType } from "@/app/helper/response.helper";
+import { errorResponse, ResType } from "@/app/helper/response.helper";
 
 export async function joinAction(
-  state: ResponseType<never>,
+  state: ResType<never>,
   data: FormData
-): Promise<ResponseType> {
+): Promise<ResType> {
   console.log(data);
 
   await connectToDB();

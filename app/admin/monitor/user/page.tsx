@@ -11,12 +11,12 @@ export default async function UserMonitorPage() {
     {
       password: 0,
       salt: 0,
-    },
-    {
-      // paginate
-      limit: 2,
-      skip: 0,
     }
+    // {
+    //   // paginate
+    //   limit: 2,
+    //   skip: 0,
+    // }
   );
 
   return (

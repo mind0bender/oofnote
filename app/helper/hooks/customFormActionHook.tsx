@@ -2,16 +2,16 @@
 
 import { useActionState, useEffect } from "react";
 import { Id, toast } from "react-toastify";
-import { ResponseType } from "../response.helper";
+import { ResType } from "../response.helper";
 
 export default function useCustomActionState<Payload>(
   action: (
-    state: Awaited<ResponseType>,
+    state: Awaited<ResType>,
     payload: Payload
-  ) => ResponseType | Promise<ResponseType>,
-  initialState: Awaited<ResponseType>
+  ) => ResType | Promise<ResType>,
+  initialState: Awaited<ResType>
 ): [
-  state: Awaited<ResponseType>,
+  state: Awaited<ResType>,
   dispatch: (payload: Payload) => void,
   isPending: boolean
 ] {

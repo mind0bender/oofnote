@@ -34,6 +34,7 @@ const config: Config = {
       // secondary form element variant
       addVariant("secondary", '&[data-secondary="true"]');
       addVariant("tertiary", '&[data-tertiary="true"]');
+      addVariant("error", '&[data-error="true"]');
     }),
   ],
 };

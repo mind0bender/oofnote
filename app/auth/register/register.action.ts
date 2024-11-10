@@ -16,7 +16,7 @@ import {
 import { ObjectId } from "mongoose";
 import connectToDB from "../../database";
 import { redirect } from "next/navigation";
-import { errorResponse, ResponseType } from "../../helper/response.helper";
+import { errorResponse, ResType } from "../../helper/response.helper";
 import User, { UserInterface } from "../../database/models/user/user";
 
 const registerDataSchema: ZodObject<
@@ -44,12 +44,12 @@ const registerDataSchema: ZodObject<
 });
 
 export const registerAction: (
-  state: ResponseType<never>,
+  state: ResType<never>,
   data: FormData
-) => Promise<ResponseType> = async function (
-  state: ResponseType<never>,
+) => Promise<ResType> = async function (
+  state: ResType<never>,
   data: FormData
-): Promise<ResponseType> {
+): Promise<ResType> {
   await connectToDB();
   const username: FormDataEntryValue | null = data.get("username");
   const email: FormDataEntryValue | null = data.get("email");

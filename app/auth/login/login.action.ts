@@ -20,7 +20,7 @@ import User, { UserInterface } from "../../database/models/user/user";
 import { createSession, getSessionData } from "@/app/lib/auth/session.auth.lib";
 import {
   errorResponse,
-  ResponseType,
+  ResType,
   successResponse,
 } from "@/app/helper/response.helper";
 
@@ -45,12 +45,12 @@ const loginDataSchema: ZodObject<
 });
 
 export const loginAction: (
-  state: ResponseType<never>,
+  state: ResType<never>,
   data: FormData
-) => Promise<ResponseType> = async function (
-  state: ResponseType<never>,
+) => Promise<ResType> = async function (
+  state: ResType<never>,
   data: FormData
-): Promise<ResponseType> {
+): Promise<ResType> {
   await connectToDB();
   const sessionData: SessionPayload | undefined = await getSessionData();
   if (sessionData) {
