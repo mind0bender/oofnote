@@ -2,18 +2,19 @@ import Link from "next/link";
 import { Suspense } from "react";
 import LoginForm from "./LoginForm";
 import Button from "@/app/components/Button";
-import { getUser, SessionState } from "@/app/helper/session.helper";
+import { getUser } from "@/app/helper/session.helper";
 import Form from "@/app/components/Form";
+import { UserInterface } from "@/app/database/models/user/user";
 
 export default async function LoginPage(): Promise<JSX.Element> {
-  const [user, isOnline]: SessionState = await getUser({
+  const user: UserInterface | null = await getUser({
     projection: {
       username: 1,
     },
   });
   return (
     <>
-      <div data-alive={isOnline} className={`hidden alive:flex flex-col gap-2`}>
+      <div data-alive={!!user} className={`hidden alive:flex flex-col gap-2`}>
         <Form
           formTitle={
             <div>
@@ -38,7 +39,7 @@ export default async function LoginPage(): Promise<JSX.Element> {
         </Form>
       </div>
       <Suspense fallback={<div>Loading...</div>}>
-        <LoginForm data-alive={isOnline} className={`block alive:hidden`} />
+        <LoginForm data-alive={!!user} className={`block alive:hidden`} />
       </Suspense>
     </>
   );

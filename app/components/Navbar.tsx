@@ -19,9 +19,8 @@ function Navbar(): JSX.Element {
       className={`sticky top-0 bg-stone-900 bg-opacity-85 backdrop-blur-sm flex justify-between items-center ${
         scrollY ? "py-3" : "py-5"
       } px-6 sm:px-8 border-b border-b-stone-700 duration-200`}>
-      <Link href={`/`} className={`font-semibold text-lg`}>
-        <span className={`font-black`}>Oof</span>
-        <span className={`font-thin`}>Note</span>
+      <Link href={`/`} className={`text-lg`}>
+        OofNote
       </Link>
       <ul className={`flex justify-center items-center sm:gap-4 gap-2`}>
         <li>

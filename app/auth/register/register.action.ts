@@ -57,10 +57,6 @@ export const registerAction: (
 
   console.log({ username, email, password });
 
-  if (!username || !email || !password) {
-    return errorResponse("Bad Request", ["All fields are required"]);
-  }
-
   const registerDataValidationResult: SafeParseReturnType<
     {
       username: string;
@@ -73,9 +69,9 @@ export const registerAction: (
       password: string;
     }
   > = registerDataSchema.safeParse({
-    username: username.toString(),
-    email: email.toString(),
-    password: password.toString(),
+    username: username!.toString(),
+    email: email!.toString(),
+    password: password!.toString(),
   });
 
   if (!registerDataValidationResult.success) {
@@ -107,7 +103,7 @@ export const registerAction: (
     username: registerDataValidationResult.data.username,
     email: registerDataValidationResult.data.email,
   });
-  user.setPassword(password.toString());
+  user.setPassword(registerDataValidationResult.data.password);
 
   await user.save(); // save and awaken
 

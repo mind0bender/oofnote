@@ -5,19 +5,24 @@ import { getSessionData } from "../lib/auth/session.auth.lib";
 import User, { UserInterface } from "@/app/database/models/user/user";
 
 interface GetUserOpts {
-  projection?: ProjectionType<UserInterface>;
+  projection?: Record<keyof ProjectionType<UserInterface>, 0 | 1>;
 }
 
-export type SessionState = [user: UserInterface | null, isOnline: boolean];
+const defaultProjection: Record<string, 0 | 1> = {
+  _id: 1,
+};
 
 export async function getUser({
-  projection = {
-    _id: true,
-  },
-}: GetUserOpts): Promise<SessionState> {
+  projection,
+}: GetUserOpts): Promise<UserInterface | null> {
+  const finalProjection: ProjectionType<UserInterface> = {
+    ...defaultProjection,
+    ...projection,
+  };
+
   await connectToDB();
   const sessionData: SessionPayload | undefined = await getSessionData();
   const _id: string | undefined = sessionData?._id;
-  const user: UserInterface | null = await User.findById(_id, projection);
-  return [user, !!user];
+  const user: UserInterface | null = await User.findById(_id, finalProjection);
+  return user;
 }
