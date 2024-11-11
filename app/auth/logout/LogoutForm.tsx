@@ -5,6 +5,7 @@ import { successResponse } from "@/app/helper/response.helper";
 import logoutAction from "./logout.action";
 import Link from "next/link";
 import useCustomActionState from "@/app/helper/hooks/customFormActionHook";
+import { DashboardRounded, LogoutRounded } from "@mui/icons-material";
 
 export default function LogoutForm({ ...rest }: FormProps): JSX.Element {
   const [, logoutFormAction, isLogoutFormActionPending] = useCustomActionState(
@@ -23,13 +24,19 @@ export default function LogoutForm({ ...rest }: FormProps): JSX.Element {
             tabIndex={0}
             href={"/dashboard"}
             className={`grow outline-none`}>
-            <Button data-secondary>Dashboard</Button>
+            <Button
+              data-secondary
+              className={`flex justify-center items-center gap-2`}>
+              <DashboardRounded />
+              Dashboard
+            </Button>
           </Link>
         </div>
         <Button
           disabled={isLogoutFormActionPending}
-          className={`w-2/3`}
+          className={`w-2/3 flex justify-center items-center gap-2`}
           type={"submit"}>
+          <LogoutRounded />
           Logout
         </Button>
       </div>

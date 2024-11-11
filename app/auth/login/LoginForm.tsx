@@ -9,6 +9,7 @@ import Form, { FormProps } from "@/app/components/Form";
 import { successResponse } from "@/app/helper/response.helper";
 import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
 import useCustomActionState from "@/app/helper/hooks/customFormActionHook";
+import { LoginRounded } from "@mui/icons-material";
 
 export default function LoginForm({ ...rest }: FormProps): JSX.Element {
   const searchParams: ReadonlyURLSearchParams = useSearchParams();
@@ -55,9 +56,10 @@ export default function LoginForm({ ...rest }: FormProps): JSX.Element {
       <div className={`w-full px-6`}>
         <Button
           disabled={isLoginFormActionPending}
-          className={`w-full`}
+          className={`w-full flex justify-center items-center gap-2`}
           type={"submit"}>
           Login
+          <LoginRounded />
         </Button>
       </div>
       <div className={`flex justify-end text-sm`}>
